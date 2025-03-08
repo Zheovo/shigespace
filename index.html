@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)file:///E:/%E8%AF%97%E5%88%8A%E6%8A%95%E7%A8%BF/ppp1.html#editor -->
+<html lang="zh"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>诗意空间 - 诗歌排版与分类存储</title>
+    <style>
+        :root {
+            --primary-color: #3a5a40;
+            --secondary-color: #a3b18a;
+            --light-color: #dad7cd;
+            --dark-color: #344e41;
+            --accent-color: #588157;
+            --danger-color: #e63946;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SimSun', serif;
+        }
+        
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+        
+        main {
+            padding: 40px 0;
+            min-height: calc(100vh - 180px);
+        }
+        
+        .editor-section {
+            display: flex;
+            margin-bottom: 40px;
+            gap: 20px;
+        }
+        
+        .editor-container {
+            flex: 2;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        .editor-title {
+            border: none;
+            border-bottom: 2px solid var(--secondary-color);
+            width: 100%;
+            padding: 10px 0;
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+        
+        .editor-content {
+            width: 100%;
+            min-height: 300px;
+            border: none;
+            resize: vertical;
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--dark-color);
+        }
+        
+        .editor-content:focus, .editor-title:focus {
+            outline: none;
+        }
+        
+        .editor-tools {
+            flex: 1;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        .tool-section {
+            margin-bottom: 20px;
+        }
+        
+        .tool-section h3 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--secondary-color);
+            padding-bottom: 5px;
+        }
+        
+        .format-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .format-button {
+            background: var(--secondary-color);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .format-button:hover {
+            background: var(--primary-color);
+        }
+        
+        .category-selector {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid var(--secondary-color);
+            border-radius: 3px;
+            color: var(--dark-color);
+        }
+        
+        .tag-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid var(--secondary-color);
+            border-radius: 3px;
+            color: var(--dark-color);
+        }
+        
+        .save-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 3px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .save-button:hover {
+            background: var(--primary-color);
+        }
+        
+        .preview-section {
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .preview-section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .preview-content {
+            text-align: center;
+            font-size: 18px;
+            line-height: 2;
+            white-space: pre-wrap;
+        }
+        
+        .collection-section {
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        .collection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .filter-container {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .filter-select {
+            padding: 8px;
+            border: 1px solid var(--secondary-color);
+            border-radius: 3px;
+            color: var(--dark-color);
+        }
+        
+        .poem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .poem-card {
+            background: var(--light-color);
+            border-radius: 5px;
+            padding: 15px;
+            transition: transform 0.3s;
+            position: relative;
+        }
+        
+        .poem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .poem-card h3 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            padding-right: 30px; /* 为操作按钮腾出空间 */
+        }
+        
+        .poem-excerpt {
+            font-size: 14px;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+        
+        .poem-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--accent-color);
+            margin-top: 10px;
+        }
+        
+        .poem-card-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+        }
+        
+        .action-button {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .edit-button {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .edit-button:hover {
+            background-color: var(--accent-color);
+        }
+        
+        .delete-button {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        .delete-button:hover {
+            background-color: #c1121f;
+        }
+        
+        .action-button i {
+            font-style: normal;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 5px;
+            width: 400px;
+            max-width: 90%;
+        }
+        
+        .modal-title {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .modal-button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .confirm-button {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        .cancel-button {
+            background-color: #ccc;
+            color: #333;
+        }
+        
+        @media (max-width: 768px) {
+            .editor-section {
+                flex-direction: column;
+            }
+            
+            .poem-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">诗意空间</div>
+                <ul class="nav-links">
+                    <li><a href="file:///E:/%E8%AF%97%E5%88%8A%E6%8A%95%E7%A8%BF/ppp1.html#editor">创作空间</a></li>
+                    <li><a href="file:///E:/%E8%AF%97%E5%88%8A%E6%8A%95%E7%A8%BF/ppp1.html#collection">诗集浏览</a></li>
+                    <li><a href="file:///E:/%E8%AF%97%E5%88%8A%E6%8A%95%E7%A8%BF/ppp1.html#about">关于我们</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <section id="editor" class="editor-section">
+            <div class="editor-container">
+                <input type="text" class="editor-title" placeholder="诗歌标题...">
+                <textarea class="editor-content" placeholder="在这里开始创作您的诗歌..."></textarea>
+            </div>
+            
+            <div class="editor-tools">
+                <div class="tool-section">
+                    <h3>排版工具</h3>
+                    <div class="format-buttons">
+                        <button class="format-button">对齐居中</button>
+                        <button class="format-button">增加缩进</button>
+                        <button class="format-button">减少缩进</button>
+                        <button class="format-button">行距调整</button>
+                        <button class="format-button">字体变更</button>
+                    </div>
+                </div>
+                
+                <div class="tool-section">
+                    <h3>分类管理</h3>
+                    <select id="category-selector" class="category-selector">
+                        <option value="">选择分类...</option>
+                        <option value="自然风光">自然风光</option>
+                        <option value="爱情抒情">爱情抒情</option>
+                        <option value="哲理思考">哲理思考</option>
+                        <option value="生活感悟">生活感悟</option>
+                        <option value="其他主题">其他主题</option>
+                    </select>
+                    <input type="text" class="tag-input" placeholder="标签，用逗号分隔...">
+                </div>
+                
+                <div class="tool-section">
+                    <h3>保存选项</h3>
+                    <select id="visibility-selector" class="category-selector">
+                        <option value="public">公开分享</option>
+                        <option value="private">私密保存</option>
+                    </select>
+                    <button id="save-button" class="save-button">更新诗歌</button>
+                </div>
+            </div>
+        </section>
+        
+        <section class="preview-section">
+            <h2>夏的九月</h2>
+            <div class="preview-content" style="text-align: center; text-indent: 0px; line-height: 2; font-family: KaiTi;">夏天的柔情奄忽而逝，
+只现于盛年中的一朝。
+我至今没能忘掉，
+我们在苍茫月色下重叠的影子。
+
+那幸福如一粒火花，
+闪过群星照耀后的一霎。
+这颗心尚且天真，
+曾经紧张盼望的气息已然走出年华。
+
+一夜未眠，坐着等待将至的黎明，
+辞旧迎新的日子，
+众人欢庆。
+
+我最害怕九月的空气，
+听从了内心的建议，
+即使它那么让人惊奇。</div>
+        </section>
+        
+        <section id="collection" class="collection-section">
+            <div class="collection-header">
+                <h2>诗歌集</h2>
+                <div class="filter-container">
+                    <select id="filter-category" class="filter-select">
+                        <option value="">全部分类</option>
+                        <option value="自然风光">自然风光</option>
+                        <option value="爱情抒情">爱情抒情</option>
+                        <option value="哲理思考">哲理思考</option>
+                        <option value="生活感悟">生活感悟</option>
+                        <option value="其他主题">其他主题</option>
+                    </select>
+                    <select id="filter-sort" class="filter-select">
+                        <option value="newest">最新发布</option>
+                        <option value="oldest">最早发布</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="poem-grid" class="poem-grid"><div class="poem-card">
+                    <h3>夏的九月</h3>
+                    <p class="poem-excerpt">夏天的柔情奄忽而逝，
+只现于盛年中的一朝。
+我至今没能忘掉，
+我们在苍茫月色下重叠的影子。
+
+那幸福如一粒火花，
+闪过群...</p>
+                    <div class="poem-meta">
+                        <span>爱情抒情</span>
+                        <span>2025-03-08</span>
+                    </div>
+                    <div class="poem-card-actions">
+                        <button class="action-button edit-button" data-id="7"><i>✎</i></button>
+                        <button class="action-button delete-button" data-id="7"><i>✕</i></button>
+                    </div>
+                </div></div>
+        </section>
+    </main>
+    
+    <div id="notification" class="notification">诗歌已成功删除！</div>
+    
+    <div id="delete-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3 class="modal-title">确认删除</h3>
+            <p>您确定要删除这首诗歌吗？此操作不可撤销。</p>
+            <div class="modal-buttons">
+                <button id="cancel-delete" class="modal-button cancel-button">取消</button>
+                <button id="confirm-delete" class="modal-button confirm-button">确认删除</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2025 诗意空间 - 一个专注于诗歌排版与分类存储的网站</p>
+        </div>
+    </footer>
+    
+    <script>
+        // 示例诗歌数据
+        let poems = [
+            {
+                id: 1,
+                title: '夏日的云',
+                content: '在山远处\n有一片云\n像是忘记了时间\n\n风轻轻地来\n又悄悄地走\n带走了夏日的炎热\n\n只留下清凉\n和满天的星光',
+                category: '自然风光',
+                date: '2025-03-08',
+                visibility: 'public'
+            },
+            {
+                id: 2,
+                title: '思念如水',
+                content: '思念如水\n缓缓流淌\n在心底深处\n\n时光匆匆\n带不走的\n是对你的牵挂',
+                category: '爱情抒情',
+                date: '2025-03-05',
+                visibility: 'public'
+            },
+            {
+                id: 3,
+                title: '城市晚歌',
+                content: '霓虹闪烁\n人群涌动\n这座不眠的城市\n\n每一个灵魂\n都有自己的\n故事和归处',
+                category: '生活感悟',
+                date: '2025-03-01',
+                visibility: 'public'
+            },
+            {
+                id: 4,
+                title: '时间的河',
+                content: '我们都是时间长河中的过客\n带着记忆前行\n\n没有谁能够停留\n只有此刻\n值得珍惜',
+                category: '哲理思考',
+                date: '2025-02-28',
+                visibility: 'public'
+            },
+            {
+                id: 5,
+                title: '春日私语',
+                content: '春风轻轻拂过脸庞\n带来远方的气息\n\n花朵悄悄绽放\n在每一个角落\n讲述着生命的故事',
+                category: '自然风光',
+                date: '2025-02-25',
+                visibility: 'public'
+            },
+            {
+                id: 6,
+                title: '雨夜独思',
+                content: '窗外雨声滴答\n思绪如同雨滴般纷落\n\n想起你的笑容\n心中泛起\n涟漪不断',
+                category: '爱情抒情',
+                date: '2025-02-20',
+                visibility: 'public'
+            }
+        ];
+        
+        // DOM 元素
+        const titleInput = document.querySelector('.editor-title');
+        const contentInput = document.querySelector('.editor-content');
+        const previewContent = document.querySelector('.preview-content');
+        const previewTitle = document.querySelector('.preview-section h2');
+        const categorySelector = document.getElementById('category-selector');
+        const visibilitySelector = document.getElementById('visibility-selector');
+        const saveButton = document.getElementById('save-button');
+        const poemGrid = document.getElementById('poem-grid');
+        const filterCategory = document.getElementById('filter-category');
+        const filterSort = document.getElementById('filter-sort');
+        const notification = document.getElementById('notification');
+        const deleteModal = document.getElementById('delete-modal');
+        const cancelDelete = document.getElementById('cancel-delete');
+        const confirmDelete = document.getElementById('confirm-delete');
+        
+        let currentFormatSettings = {
+            align: 'center',
+            indent: '0',
+            lineHeight: '2',
+            fontFamily: 'SimSun'
+        };
+        
+        let currentEditingId = null;
+        let poemToDelete = null;
+        
+        // 初始化
+        window.addEventListener('DOMContentLoaded', () => {
+            renderPoems();
+            updatePreview();
+        });
+        
+        // 预览功能
+        function updatePreview() {
+            previewContent.textContent = contentInput.value;
+            previewContent.style.textAlign = currentFormatSettings.align;
+            previewContent.style.textIndent = currentFormatSettings.indent;
+            previewContent.style.lineHeight = currentFormatSettings.lineHeight;
+            previewContent.style.fontFamily = currentFormatSettings.fontFamily;
+        }
+        
+        titleInput.addEventListener('input', function() {
+            previewTitle.textContent = this.value || '预览效果';
+        });
+        
+        contentInput.addEventListener('input', updatePreview);
+        
+        // 排版按钮功能
+        const formatButtons = document.querySelectorAll('.format-button');
+        
+        formatButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const buttonText = this.textContent;
+                
+                if (buttonText === '对齐居中') {
+                    currentFormatSettings.align = currentFormatSettings.align === 'center' ? 'left' : 'center';
+                } else if (buttonText === '增加缩进') {
+                    currentFormatSettings.indent = '2em';
+                } else if (buttonText === '减少缩进') {
+                    currentFormatSettings.indent = '0';
+                } else if (buttonText === '行距调整') {
+                    currentFormatSettings.lineHeight = currentFormatSettings.lineHeight === '2.5' ? '2' : '2.5';
+                } else if (buttonText === '字体变更') {
+                    const fonts = ['SimSun', 'KaiTi', 'FangSong', 'SimHei', 'Microsoft YaHei'];
+                    const currentIndex = fonts.indexOf(currentFormatSettings.fontFamily);
+                    const nextIndex = (currentIndex + 1) % fonts.length;
+                    currentFormatSettings.fontFamily = fonts[nextIndex];
+                }
+                
+                updatePreview();
+            });
+        });
+        
+        // 保存诗歌
+        saveButton.addEventListener('click', function() {
+            const title = titleInput.value.trim();
+            const content = contentInput.value.trim();
+            const category = categorySelector.value;
+            const visibility = visibilitySelector.value;
+            
+            if (!title || !content) {
+                showNotification('请填写标题和内容！');
+                return;
+            }
+            
+            if (!category) {
+                showNotification('请选择一个分类！');
+                return;
+            }
+            
+            const today = new Date();
+            const formattedDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+            
+            if (currentEditingId !== null) {
+                // 编辑现有诗歌
+                const poemIndex = poems.findIndex(poem => poem.id === currentEditingId);
+                if (poemIndex !== -1) {
+                    poems[poemIndex] = {
+                        ...poems[poemIndex],
+                        title,
+                        content,
+                        category,
+                        visibility,
+                        date: formattedDate  // 更新日期为当前日期
+                    };
+                    showNotification('诗歌更新成功！');
+                }
+            } else {
+                // 添加新诗歌
+                const newId = poems.length > 0 ? Math.max(...poems.map(poem => poem.id)) + 1 : 1;
+                const newPoem = {
+                    id: newId,
+                    title,
+                    content,
+                    category,
+                    date: formattedDate,
+                    visibility
+                };
+                
+                poems.unshift(newPoem);  // 添加到数组开头，使其显示在最前面
+                showNotification('诗歌保存成功！');
+            }
+            
+            // 重置编辑状态
+            resetEditorForm();
+            // 重新渲染诗歌列表
+            renderPoems();
+            // 滚动到诗歌集
+            document.getElementById('collection').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // 渲染诗歌集
+        function renderPoems() {
+            // 清空当前显示
+            poemGrid.innerHTML = '';
+            
+            // 获取筛选条件
+            const categoryFilter = filterCategory.value;
+            const sortOption = filterSort.value;
+            
+            // 筛选诗歌
+            let filteredPoems = [...poems];
+            if (categoryFilter) {
+                filteredPoems = filteredPoems.filter(poem => poem.category === categoryFilter);
+            }
+            
+            // 排序诗歌
+            filteredPoems.sort((a, b) => {
+                if (sortOption === 'newest') {
+                    return new Date(b.date) - new Date(a.date);
+                } else {
+                    return new Date(a.date) - new Date(b.date);
+                }
+            });
+            
+            // 渲染诗歌卡片
+            filteredPoems.forEach(poem => {
+                const poemCard = document.createElement('div');
+                poemCard.className = 'poem-card';
+                
+                // 截取内容摘要（最多60个字符）
+                const excerpt = poem.content.length > 60 
+                    ? poem.content.substring(0, 60) + '...' 
+                    : poem.content;
+                
+                poemCard.innerHTML = `
+                    <h3>${poem.title}</h3>
+                    <p class="poem-excerpt">${excerpt}</p>
+                    <div class="poem-meta">
+                        <span>${poem.category}</span>
+                        <span>${poem.date}</span>
+                    </div>
+                    <div class="poem-card-actions">
+                        <button class="action-button edit-button" data-id="${poem.id}"><i>✎</i></button>
+                        <button class="action-button delete-button" data-id="${poem.id}"><i>✕</i></button>
+                    </div>
+                `;
+                
+                poemGrid.appendChild(poemCard);
+                
+                // 点击卡片主体加载内容到编辑器
+                poemCard.addEventListener('click', function(e) {
+                    // 如果点击的是操作按钮，不触发加载
+                    if (e.target.closest('.poem-card-actions')) {
+                        return;
+                    }
+                    
+                    loadPoemToEditor(poem.id);
+                });
+            });
+            
+            // 为编辑和删除按钮添加事件
+            document.querySelectorAll('.edit-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const poemId = parseInt(this.getAttribute('data-id'));
+                    loadPoemToEditor(poemId);
+                    document.getElementById('editor').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+            
+            document.querySelectorAll('.delete-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    poemToDelete = parseInt(this.getAttribute('data-id'));
+                    deleteModal.style.display = 'flex';
+                });
+            });
+        }
+        
+        // 筛选器变化时重新渲染
+        filterCategory.addEventListener('change', renderPoems);
+        filterSort.addEventListener('change', renderPoems);
+        
+        // 加载诗歌到编辑器
+        function loadPoemToEditor(poemId) {
+            const poem = poems.find(p => p.id === poemId);
+            if (poem) {
+                currentEditingId = poem.id;
+                titleInput.value = poem.title;
+                contentInput.value = poem.content;
+                categorySelector.value = poem.category;
+                visibilitySelector.value = poem.visibility || 'public';
+                
+                // 更新预览
+                previewTitle.textContent = poem.title;
+                updatePreview();
+                
+                // 修改保存按钮文本
+                saveButton.textContent = '更新诗歌';
+            }
+        }
+        
+        // 重置编辑表单
+        function resetEditorForm() {
+            currentEditingId = null;
+            titleInput.value = '';
+            contentInput.value = '';
+            categorySelector.value = '';
+            visibilitySelector.value = 'public';
+            previewTitle.textContent = '预览效果';
+            previewContent.textContent = '';
+            saveButton.textContent = '保存诗歌';
+        }
+        
+        // 显示通知
+        function showNotification(message) {
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // 确认删除
+        confirmDelete.addEventListener('click', function() {
+            if (poemToDelete !== null) {
+                poems = poems.filter(poem => poem.id !== poemToDelete);
+                renderPoems();
+                showNotification('诗歌已成功删除！');
+                deleteModal.style.display = 'none';
+                poemToDelete = null;
+                
+                // 如果当前正在编辑被删除的诗歌，重置编辑表单
+                if (currentEditingId === poemToDelete) {
+                    resetEditorForm();
+                }
+            }
+        });
+        
+        // 取消删除
+        cancelDelete.addEventListener('click', function() {
+            deleteModal.style.display = 'none';
+            poemToDelete = null;
+        });
+        
+        // 点击模态框外部关闭
+        deleteModal.addEventListener('click', function(e) {
+            if (e.target === deleteModal) {
+                deleteModal.style.display = 'none';
+                poemToDelete = null;
+            }
+        });
+    </script>
+
+</body></html>
